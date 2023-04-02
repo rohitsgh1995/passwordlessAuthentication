@@ -20,7 +20,7 @@ class LinkAuthentication
     {
         $user = $this->getUserByIdentifier($this->request->get($this->identifier));
 
-        // dd($user);
+        $user->storeToken();
     }
 
     public function getUserByIdentifier($value)
