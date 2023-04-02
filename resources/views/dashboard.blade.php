@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="m-0">{{ config('app.name') }}</h2>
+                        <h4 class="m-0">{{ config('app.name') }}</h4>
                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); 
                                                                                         document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
