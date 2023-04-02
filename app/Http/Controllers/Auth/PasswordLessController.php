@@ -38,7 +38,7 @@ class PasswordLessController extends Controller
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|max:255'
+            'email' => 'required|email:rfc,dns|max:255'
         ]);
     }
 
