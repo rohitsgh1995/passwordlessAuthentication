@@ -20,14 +20,18 @@ Route::get('/', function () {
 });
 
 
-Route::get('/login', [App\Http\Controllers\Auth\PasswordLessController::class, 'index'])->name('login');
-Route::post('/login', [App\Http\Controllers\Auth\PasswordLessController::class, 'sendToken'])->name('login.send-token');
-Route::get('/login/{token}', [App\Http\Controllers\Auth\PasswordLessController::class, 'validateToken'])->name('login.verify-token');
+Route::prefix('/login')->group(function() {
+    Route::get('/', [App\Http\Controllers\Auth\PasswordLessController::class, 'index'])->name('login');
+    Route::post('/', [App\Http\Controllers\Auth\PasswordLessController::class, 'sendToken'])->name('login.send-token');
+    Route::get('/{token}', [App\Http\Controllers\Auth\PasswordLessController::class, 'validateToken'])->name('login.verify-token');
+});
 
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
-
+Route::prefix('/onboarding')->group(function() {
+    Route::get('/', [App\Http\Controllers\OnboardingController::class, 'index'])->name('onboarding');
+    Route::post('/', [App\Http\Controllers\OnboardingController::class, 'saveName'])->name('onboarding.form');
+});
 
 Route::post('/logout', function(){
     Session::flush();
