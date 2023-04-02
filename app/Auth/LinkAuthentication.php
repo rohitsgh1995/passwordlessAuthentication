@@ -25,6 +25,17 @@ class LinkAuthentication
 
     public function getUserByIdentifier($value)
     {
-        return User::where($this->identifier, $value)->firstOrFail();
+        if(User::where($this->identifier, $value)->doesntExist())
+        {
+            $new_user = User::create([
+                $this->identifier => $value
+            ]);
+
+            return $new_user;
+        }
+        else
+        {
+            return User::where($this->identifier, $value)->firstOrFail();
+        }        
     }
 }
