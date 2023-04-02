@@ -42,22 +42,33 @@ class PasswordLessController extends Controller
         ]);
     }
 
-    public function validateToken(Request $request, UserToken $token)
+    public function validateToken(Request $request, $token)
     {
-        $token->delete();
-
-        if($token->isExpired())
+        if(UserToken::where('token', $token)->exists())
         {
-            return redirect()->route('login')->with('error', 'The link has expired.');
-        }
+            $token = UserToken::with('user')->where('token', $token)->first();            
 
-        if(!$token->belongsToEmail($request->email))
+            if($token->isExpired())
+            {
+                return redirect()->route('login')->with('error', 'The link has expired.');
+            }
+
+            // dd(urldecode($request->email));
+
+            if($token->user->email != urldecode($request->email))
+            {
+                return redirect()->route('login')->with('error', 'The link is invalid.'); 
+            }
+
+            Auth::login($token->user, $request->remember_me);
+
+            $token->delete();
+
+            return redirect()->intended();
+        }
+        else
         {
-            return redirect()->route('login')->with('error', 'The link is invalid.'); 
+            return redirect()->route('login')->with('error', 'The link is invalid.');
         }
-
-        Auth::login($token->user, $request->remember_me);
-
-        return redirect()->intended();
     }
 }

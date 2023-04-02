@@ -10,29 +10,19 @@ class UserToken extends Model
 {
     use HasFactory;
 
-    const TOKEN_EXPIRY = 900; // 15 mins 
+    const TOKEN_EXPIRY = 900; // 15 mins = 900 secs
 
     protected $fillable = [
-        'token'
+        'user_id', 'token'
     ];
 
     public function isExpired()
     {
         return $this->created_at->diffInSeconds(Carbon::now()) > self::TOKEN_EXPIRY;
     }
-
-    public function belongsToEmail($email)
-    {
-        return (bool) ($this->user->where('email', $email)->count() === 1);
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'token';
-    }
-
+    
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
