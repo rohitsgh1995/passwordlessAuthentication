@@ -5,12 +5,21 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __(config('app.name', 'Laravel').' Login') }}</div>
+                <div class="card-header">
+                    <h2 class="m-0">{{ __(config('app.name', 'Laravel').' Login') }}</h2>
+                </div>
 
                 <div class="card-body">
 
                     @if ($message = Session::get('link-success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <p class="m-0 p-0">{{ $message }}</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <p class="m-0 p-0">{{ $message }}</p>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>

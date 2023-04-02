@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 
@@ -23,4 +25,12 @@ Route::post('/login', [App\Http\Controllers\Auth\PasswordLessController::class, 
 Route::get('/login/{token}', [App\Http\Controllers\Auth\PasswordLessController::class, 'validateToken'])->name('login.verify-token');
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+
+
+Route::post('/logout', function(){
+    Session::flush();
+    Auth::logout();
+    return redirect()->route('login');
+})->name('logout');

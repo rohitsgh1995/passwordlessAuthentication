@@ -14,7 +14,7 @@ trait LinkAuthenticable
         $this->token()->delete();
 
         $this->token()->create([
-            'token' => Str::random(255),
+            'token' => Str::random(100),
         ]);
 
         return $this;
