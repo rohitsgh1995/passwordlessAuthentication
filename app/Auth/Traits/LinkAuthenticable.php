@@ -2,7 +2,9 @@
 
 namespace App\Auth\Traits;
 
+use Mail;
 use App\Models\UserToken;
+use App\Mail\MailLinkToUser;
 use Illuminate\Support\Str;
 
 trait LinkAuthenticable
@@ -16,6 +18,11 @@ trait LinkAuthenticable
         ]);
 
         return $this;
+    }
+
+    public function sendLink(array $options)
+    {
+        Mail::to($this)->send(new MailLinkToUser($this, $options));
     }
 
     public function token()

@@ -20,7 +20,10 @@ class LinkAuthentication
     {
         $user = $this->getUserByIdentifier($this->request->get($this->identifier));
 
-        $user->storeToken();
+        $user->storeToken()->sendLink([
+            'remember_me' => $this->request->has('remember'),
+            'email' => $user->email
+        ]);
     }
 
     public function getUserByIdentifier($value)

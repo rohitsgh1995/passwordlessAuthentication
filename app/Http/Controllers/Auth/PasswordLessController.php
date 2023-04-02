@@ -18,6 +18,8 @@ class PasswordLessController extends Controller
         $this->validateLogin($request);
 
         $auth->requestLink();
+
+        return redirect()->route('login')->with('link-success', "Great. Thanks, We'ev sent you a link to Login. Please check your email and click the link.");
     }
 
     protected function validateLogin(Request $request)
@@ -25,5 +27,10 @@ class PasswordLessController extends Controller
         $this->validate($request, [
             'email' => 'required|email|max:255'
         ]);
+    }
+
+    public function validateToken()
+    {
+        
     }
 }

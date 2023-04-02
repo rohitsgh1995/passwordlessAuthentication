@@ -8,6 +8,14 @@
                 <div class="card-header">{{ __(config('app.name', 'Laravel').' Login') }}</div>
 
                 <div class="card-body">
+
+                    @if ($message = Session::get('link-success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <p class="m-0 p-0">{{ $message }}</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login.send-token') }}">
                         @csrf
 
